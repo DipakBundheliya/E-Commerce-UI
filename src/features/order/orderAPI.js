@@ -1,11 +1,14 @@
 // A mock function to mimic making an async request for data
 export function createOrder(orderData) {
   return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8080/orders", {
-      method: "POST",
-      body: JSON.stringify(orderData),
-      headers: { "content-type": "application/json" },
-    });
+    const response = await fetch(
+      "https://e-commerce-back-end-three.vercel.app/orders",
+      {
+        method: "POST",
+        body: JSON.stringify(orderData),
+        headers: { "content-type": "application/json" },
+      }
+    );
     const data = await response.json();
     resolve({ data });
   });
@@ -20,7 +23,9 @@ export function fetchAllOrders({ pagination, sort }) {
   });
 
   return new Promise(async (resolve) => {
-    const response = await fetch(`http://localhost:8080/orders?${queryStr}`);
+    const response = await fetch(
+      `https://e-commerce-back-end-three.vercel.app/orders?${queryStr}`
+    );
     const data = await response.json();
     const totalOrders = await response.headers.get("X-Total-Count");
     resolve({ data: { orders: data, totalOrders: totalOrders } });
@@ -30,11 +35,14 @@ export function fetchAllOrders({ pagination, sort }) {
 // This api is used by admin to edit status of order
 export function updateOrder(order) {
   return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8080/orders/" + order.id, {
-      method: "PATCH",
-      body: JSON.stringify(order),
-      headers: { "content-type": "application/json" },
-    });
+    const response = await fetch(
+      "https://e-commerce-back-end-three.vercel.app/orders/" + order.id,
+      {
+        method: "PATCH",
+        body: JSON.stringify(order),
+        headers: { "content-type": "application/json" },
+      }
+    );
     const data = await response.json();
     resolve({ data });
   });
@@ -43,10 +51,13 @@ export function updateOrder(order) {
 // This api is used by admin to delete order from set of orders
 export function deleteOrder(orderId) {
   return new Promise(async (resolve, reject) => {
-    const response = await fetch("http://localhost:8080/orders/" + orderId, {
-      method: "DELETE",
-      headers: { "content-type": "application/json" },
-    });
+    const response = await fetch(
+      "https://e-commerce-back-end-three.vercel.app/orders/" + orderId,
+      {
+        method: "DELETE",
+        headers: { "content-type": "application/json" },
+      }
+    );
     const data = await response.json();
     console.log(data.acknowledged);
     if (data.acknowledged) {
