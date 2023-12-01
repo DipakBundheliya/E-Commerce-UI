@@ -2,9 +2,10 @@
 export function fetchLoggedInUserOrder(userId) {
   return new Promise(async (resolve) => {
     const response = await fetch(
-      "https://e-commerce-back-end-three.vercel.app/orders?id=" + userId
+      "https://e-commerce-back-end-three.vercel.app/ordersOfUser?id=" + userId
     );
-    const data = response.json();
+    const data = await response.json();
+
     resolve({ data });
   });
 }

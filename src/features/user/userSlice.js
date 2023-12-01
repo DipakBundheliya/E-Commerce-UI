@@ -19,7 +19,6 @@ export const fetchLoggedInUserOrderAsync = createAsyncThunk(
   "user/fetchLoggedInUserOrder",
   async (id) => {
     const response = await fetchLoggedInUserOrder(id);
-    console.log(response.data);
     // The value we return becomes the `fulfilled` action payload
     return response.data;
   }
