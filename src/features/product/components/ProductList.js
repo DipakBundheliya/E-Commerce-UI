@@ -125,8 +125,7 @@ export default function ProductList() {
       });
     }
     setfilter({ ...filter });
-
-    dispatch(fetchProductsByFilterAsync(filter));
+    dispatch(fetchProductsByFilterAsync({ filter }));
     // here use effect is call
   }
 
@@ -135,7 +134,7 @@ export default function ProductList() {
     filter[`_order`] = [option.order];
     setfilter({ ...filter });
 
-    dispatch(fetchProductsByFilterAsync(filter));
+    dispatch(fetchProductsByFilterAsync({ filter }));
   }
 
   return (
