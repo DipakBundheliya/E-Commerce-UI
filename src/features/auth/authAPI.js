@@ -13,6 +13,7 @@ export function createUser(userData) {
     resolve({ data });
   });
 }
+
 export function checkUser(loginInfo) {
   return new Promise(async (resolve, reject) => {
     try {
@@ -31,6 +32,25 @@ export function checkUser(loginInfo) {
         const error = await response.json();
         reject(error);
       }
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+export function hasLoginnedUser() {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = await fetch(
+        `https://e-commerce-back-end-three.vercel.app/auth/hasloginned`
+      );
+      if (response.ok) {
+        const data = await response.json();
+        resolve({ data });
+      } else {
+        const error = await response.json();
+        reject(error);
+      }
+      console.log(response);
     } catch (error) {
       reject(error);
     }
