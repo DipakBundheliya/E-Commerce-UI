@@ -2,7 +2,7 @@
 export function fetchLoggedInUserOrder(userId) {
   return new Promise(async (resolve) => {
     const response = await fetch(
-      "https://e-commerce-back-end-three.vercel.app/ordersOfUser?id=" + userId
+      "https://e-commerce-back-end-xx27.vercel.app/ordersOfUser?id=" + userId
     );
     const data = await response.json();
 
@@ -12,7 +12,7 @@ export function fetchLoggedInUserOrder(userId) {
 export function fetchLoggedInUser(userId) {
   return new Promise(async (resolve) => {
     const response = await fetch(
-      "https://e-commerce-back-end-three.vercel.app/users/" + userId
+      "https://e-commerce-back-end-xx27.vercel.app/users/" + userId
     );
     const data = response.json();
     resolve({ data });
@@ -22,7 +22,7 @@ export function fetchLoggedInUser(userId) {
 export function updateUser(user) {
   return new Promise(async (resolve) => {
     const response = await fetch(
-      "https://e-commerce-back-end-three.vercel.app/users/" + user.id,
+      "https://e-commerce-back-end-xx27.vercel.app/users/" + user.id,
       {
         method: "PATCH",
         body: JSON.stringify(user),

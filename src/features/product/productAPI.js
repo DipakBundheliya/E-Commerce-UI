@@ -1,7 +1,7 @@
 // A mock function to mimic making an async request for data
 
 export function fetchProductsByFilter(filter, admin) {
-  // TODO: Server will filter deleted products in case of non admin 
+  // TODO: Server will filter deleted products in case of non admin
   let queryStr = "";
   Object.keys(filter).forEach((key) => {
     filter[key].forEach((val) => {
@@ -14,7 +14,7 @@ export function fetchProductsByFilter(filter, admin) {
 
   return new Promise(async (resolve) => {
     const response = await fetch(
-      `https://e-commerce-back-end-three.vercel.app/products?${queryStr}`
+      `https://e-commerce-back-end-xx27.vercel.app/products?${queryStr}`
     );
     const data = await response.json();
     const totalItems = await response.headers.get("X-Total-Count");
@@ -25,7 +25,7 @@ export function fetchProductsByFilter(filter, admin) {
 export function fetchAllBrands() {
   return new Promise(async (resolve) => {
     const response = await fetch(
-      "https://e-commerce-back-end-three.vercel.app/brands"
+      "https://e-commerce-back-end-xx27.vercel.app/brands"
     );
     const data = response.json();
     resolve({ data });
@@ -35,7 +35,7 @@ export function fetchAllBrands() {
 export function fetchAllCategories() {
   return new Promise(async (resolve) => {
     const response = await fetch(
-      "https://e-commerce-back-end-three.vercel.app/categories"
+      "https://e-commerce-back-end-xx27.vercel.app/categories"
     );
     const data = response.json();
     resolve({ data });
@@ -44,7 +44,7 @@ export function fetchAllCategories() {
 export function fetchProductById(id) {
   return new Promise(async (resolve) => {
     const response = await fetch(
-      `https://e-commerce-back-end-three.vercel.app/products/${id}`
+      `https://e-commerce-back-end-xx27.vercel.app/products/${id}`
     );
     const data = response.json();
     resolve({ data });
@@ -55,7 +55,7 @@ export function fetchProductById(id) {
 export function createProduct(productData) {
   return new Promise(async (resolve) => {
     const response = await fetch(
-      "https://e-commerce-back-end-three.vercel.app/products",
+      "https://e-commerce-back-end-xx27.vercel.app/products",
       {
         method: "POST",
         body: JSON.stringify(productData),
@@ -71,7 +71,7 @@ export function createProduct(productData) {
 export function updateProduct(productData) {
   return new Promise(async (resolve) => {
     const response = await fetch(
-      "https://e-commerce-back-end-three.vercel.app/products/" + productData.id,
+      "https://e-commerce-back-end-xx27.vercel.app/products/" + productData.id,
       {
         method: "PATCH",
         body: JSON.stringify(productData),

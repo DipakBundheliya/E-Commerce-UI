@@ -2,7 +2,7 @@
 export function createOrder(orderData) {
   return new Promise(async (resolve) => {
     const response = await fetch(
-      "https://e-commerce-back-end-three.vercel.app/orders",
+      "https://e-commerce-back-end-xx27.vercel.app/orders",
       {
         method: "POST",
         body: JSON.stringify(orderData),
@@ -24,7 +24,7 @@ export function fetchAllOrders({ pagination, sort }) {
 
   return new Promise(async (resolve) => {
     const response = await fetch(
-      `https://e-commerce-back-end-three.vercel.app/orders?${queryStr}`
+      `https://e-commerce-back-end-xx27.vercel.app/orders?${queryStr}`
     );
     const data = await response.json();
     const totalOrders = await response.headers.get("X-Total-Count");
@@ -36,7 +36,7 @@ export function fetchAllOrders({ pagination, sort }) {
 export function updateOrder(order) {
   return new Promise(async (resolve) => {
     const response = await fetch(
-      "https://e-commerce-back-end-three.vercel.app/orders/" + order.id,
+      "https://e-commerce-back-end-xx27.vercel.app/orders/" + order.id,
       {
         method: "PATCH",
         body: JSON.stringify(order),
@@ -52,13 +52,13 @@ export function updateOrder(order) {
 export function deleteOrder(orderId) {
   return new Promise(async (resolve, reject) => {
     const response = await fetch(
-      "https://e-commerce-back-end-three.vercel.app/orders/" + orderId,
+      "https://e-commerce-back-end-xx27.vercel.app/orders/" + orderId,
       {
         method: "DELETE",
         headers: { "content-type": "application/json" },
       }
     );
-    const data = await response.json(); 
+    const data = await response.json();
     if (data.acknowledged) {
       resolve({ data: { id: orderId } });
     } else {

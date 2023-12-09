@@ -1,7 +1,7 @@
 export function addToCart(item) {
   return new Promise(async (resolve) => {
     const response = await fetch(
-      "https://e-commerce-back-end-three.vercel.app/cart",
+      "https://e-commerce-back-end-xx27.vercel.app/cart",
       {
         method: "POST",
         body: JSON.stringify(item),
@@ -16,7 +16,7 @@ export function addToCart(item) {
 export function fetchItemsByUserId(id) {
   return new Promise(async (resolve) => {
     const response = await fetch(
-      `https://e-commerce-back-end-three.vercel.app/cart?userid=${id}`
+      `https://e-commerce-back-end-xx27.vercel.app/cart?userid=${id}`
     );
     const data = response.json();
     resolve({ data });
@@ -26,7 +26,7 @@ export function fetchItemsByUserId(id) {
 export function updateCart(item) {
   return new Promise(async (resolve) => {
     const response = await fetch(
-      "https://e-commerce-back-end-three.vercel.app/cart/" + item.id,
+      "https://e-commerce-back-end-xx27.vercel.app/cart/" + item.id,
       {
         method: "PATCH",
         body: JSON.stringify(item),
@@ -41,7 +41,7 @@ export function updateCart(item) {
 export function deleteItemFromCart(itemId) {
   return new Promise(async (resolve, reject) => {
     const response = await fetch(
-      "https://e-commerce-back-end-three.vercel.app/cart/" + itemId,
+      "https://e-commerce-back-end-xx27.vercel.app/cart/" + itemId,
       {
         method: "DELETE",
         headers: { "content-type": "application/json" },

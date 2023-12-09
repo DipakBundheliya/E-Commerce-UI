@@ -2,7 +2,7 @@
 export function createUser(userData) {
   return new Promise(async (resolve) => {
     const response = await fetch(
-      "https://e-commerce-back-end-three.vercel.app/auth/signup",
+      "https://e-commerce-back-end-xx27.vercel.app/auth/signup",
       {
         method: "POST",
         body: JSON.stringify(userData),
@@ -18,7 +18,7 @@ export function checkUser(loginInfo) {
   return new Promise(async (resolve, reject) => {
     try {
       const response = await fetch(
-        `https://e-commerce-back-end-three.vercel.app/auth/login`,
+        `https://e-commerce-back-end-xx27.vercel.app/auth/login`,
         {
           method: "POST",
           body: JSON.stringify(loginInfo),
@@ -41,7 +41,7 @@ export function hasLoginnedUser() {
   return new Promise(async (resolve, reject) => {
     try {
       const response = await fetch(
-        `https://e-commerce-back-end-three.vercel.app/auth/hasloginned`
+        `https://e-commerce-back-end-xx27.vercel.app/auth/hasloginned`
       );
       if (response.ok) {
         const data = await response.json();
