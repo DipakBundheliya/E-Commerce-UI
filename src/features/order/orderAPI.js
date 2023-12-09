@@ -58,8 +58,7 @@ export function deleteOrder(orderId) {
         headers: { "content-type": "application/json" },
       }
     );
-    const data = await response.json();
-    console.log(data.acknowledged);
+    const data = await response.json(); 
     if (data.acknowledged) {
       resolve({ data: { id: orderId } });
     } else {

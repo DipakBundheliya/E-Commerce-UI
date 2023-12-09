@@ -35,6 +35,8 @@ import AdminOrdersPage from "./pages/AdminOrdersPage";
 import { positions, Provider } from "react-alert";
 import AlertTemplate from "react-alert-template-basic";
 import ProductDetailPage from "./pages/ProductDetailPage";
+import Testui from "./Testui";
+
 const options = {
   timeout: 5000,
   position: positions.BOTTOM_LEFT,
@@ -60,6 +62,10 @@ const router = createBrowserRouter([
   {
     path: "/protected",
     element: <Protected></Protected>,
+  },
+  {
+    path: "/test",
+    element: <Testui></Testui>,
   },
   {
     path: "/cart",

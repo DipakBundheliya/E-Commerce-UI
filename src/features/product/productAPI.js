@@ -1,8 +1,7 @@
 // A mock function to mimic making an async request for data
 
 export function fetchProductsByFilter(filter, admin) {
-  // TODO: Server will filter deleted products in case of non admin
-  console.log(filter, admin);
+  // TODO: Server will filter deleted products in case of non admin 
   let queryStr = "";
   Object.keys(filter).forEach((key) => {
     filter[key].forEach((val) => {
