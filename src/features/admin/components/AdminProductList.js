@@ -460,7 +460,7 @@ function ProductGrid({ products, status }) {
                         <img
                           src={product.thumbnail}
                           alt={product.title}
-                          className="w-full h-full object-cover object-center rounded-md shadow-inner shadow-lg shadow-indigo-500/50 transition ease-in-out duration-700  group-hover:scale-110 lg:h-full lg:w-full "
+                          className="w-full h-full object-cover object-center rounded-md shadow-inner shadow-lg shadow-gray-500/50 transition ease-in-out duration-700  group-hover:scale-110 lg:h-full lg:w-full "
                         />
                       </div>
                       <div className="mt-2 px-2 sm:px-4 py-2 flex justify-between">
