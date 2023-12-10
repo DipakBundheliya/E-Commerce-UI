@@ -13,7 +13,10 @@ export function fetchProductsByFilter(filter, admin) {
   }
 
   return new Promise(async (resolve) => {
-    const response = await fetch(`http://localhost:8080/products?${queryStr}`);
+    const response = await fetch(`http://localhost:8080/products?${queryStr}`, {
+      method: "GET",
+      credentials: "include",
+    });
     const data = await response.json();
     const totalItems = await response.headers.get("X-Total-Count");
     resolve({ data: { products: data, totalItems: totalItems } });
@@ -22,7 +25,10 @@ export function fetchProductsByFilter(filter, admin) {
 
 export function fetchAllBrands() {
   return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8080/brands");
+    const response = await fetch("http://localhost:8080/brands", {
+      method: "GET",
+      credentials: "include",
+    });
     const data = response.json();
     resolve({ data });
   });
@@ -30,14 +36,20 @@ export function fetchAllBrands() {
 
 export function fetchAllCategories() {
   return new Promise(async (resolve) => {
-    const response = await fetch("http://localhost:8080/categories");
+    const response = await fetch("http://localhost:8080/categories", {
+      method: "GET",
+      credentials: "include",
+    });
     const data = response.json();
     resolve({ data });
   });
 }
 export function fetchProductById(id) {
   return new Promise(async (resolve) => {
-    const response = await fetch(`http://localhost:8080/products/${id}`);
+    const response = await fetch(`http://localhost:8080/products/${id}`, {
+      method: "GET",
+      credentials: "include",
+    });
     const data = response.json();
     resolve({ data });
   });
@@ -48,6 +60,7 @@ export function createProduct(productData) {
   return new Promise(async (resolve) => {
     const response = await fetch("http://localhost:8080/products", {
       method: "POST",
+      credentials: "include",
       body: JSON.stringify(productData),
       headers: { "content-type": "application/json" },
     });
@@ -63,6 +76,7 @@ export function updateProduct(productData) {
       "http://localhost:8080/products/" + productData.id,
       {
         method: "PATCH",
+        credentials: "include",
         body: JSON.stringify(productData),
         headers: { "content-type": "application/json" },
       }

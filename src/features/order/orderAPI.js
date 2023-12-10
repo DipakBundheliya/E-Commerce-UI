@@ -3,6 +3,7 @@ export function createOrder(orderData) {
   return new Promise(async (resolve) => {
     const response = await fetch("http://localhost:8080/orders", {
       method: "POST",
+      credentials: "include",
       body: JSON.stringify(orderData),
       headers: { "content-type": "application/json" },
     });
@@ -20,7 +21,10 @@ export function fetchAllOrders({ pagination, sort }) {
   });
 
   return new Promise(async (resolve) => {
-    const response = await fetch(`http://localhost:8080/orders?${queryStr}`);
+    const response = await fetch(`http://localhost:8080/orders?${queryStr}`, {
+      method: "GET",
+      credentials: "include",
+    });
     const data = await response.json();
     const totalOrders = await response.headers.get("X-Total-Count");
     resolve({ data: { orders: data, totalOrders: totalOrders } });
@@ -32,6 +36,7 @@ export function updateOrder(order) {
   return new Promise(async (resolve) => {
     const response = await fetch("http://localhost:8080/orders/" + order.id, {
       method: "PATCH",
+      credentials: "include",
       body: JSON.stringify(order),
       headers: { "content-type": "application/json" },
     });
@@ -45,6 +50,7 @@ export function deleteOrder(orderId) {
   return new Promise(async (resolve, reject) => {
     const response = await fetch("http://localhost:8080/orders/" + orderId, {
       method: "DELETE",
+      credentials: "include",
       headers: { "content-type": "application/json" },
     });
     const data = await response.json();
