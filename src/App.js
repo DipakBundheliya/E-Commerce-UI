@@ -14,7 +14,10 @@ import {
   Route,
   Link,
 } from "react-router-dom";
-import { selectLoggedInUser } from "./features/auth/authSlice";
+import {
+  hasLoginnedUserAsync,
+  selectLoggedInUser,
+} from "./features/auth/authSlice";
 import { useEffect } from "react";
 import { fetchItemsByUserIdAsync } from "./features/cart/cartSlice";
 import PageNotFound from "./pages/404";

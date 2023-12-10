@@ -2,7 +2,7 @@
 export function fetchLoggedInUserOrder(userId) {
   return new Promise(async (resolve) => {
     const response = await fetch(
-      "https://e-commerce-back-end-xx27.vercel.app/ordersOfUser?id=" + userId
+      "http://localhost:8080/ordersOfUser?id=" + userId
     );
     const data = await response.json();
 
@@ -11,9 +11,7 @@ export function fetchLoggedInUserOrder(userId) {
 }
 export function fetchLoggedInUser(userId) {
   return new Promise(async (resolve) => {
-    const response = await fetch(
-      "https://e-commerce-back-end-xx27.vercel.app/users/" + userId
-    );
+    const response = await fetch("http://localhost:8080/users/" + userId);
     const data = response.json();
     resolve({ data });
   });
@@ -21,14 +19,11 @@ export function fetchLoggedInUser(userId) {
 // This api is called in checkout page , store addresses
 export function updateUser(user) {
   return new Promise(async (resolve) => {
-    const response = await fetch(
-      "https://e-commerce-back-end-xx27.vercel.app/users/" + user.id,
-      {
-        method: "PATCH",
-        body: JSON.stringify(user),
-        headers: { "content-type": "application/json" },
-      }
-    );
+    const response = await fetch("http://localhost:8080/users/" + user.id, {
+      method: "PATCH",
+      body: JSON.stringify(user),
+      headers: { "content-type": "application/json" },
+    });
     const data = await response.json();
     resolve({ data });
   });

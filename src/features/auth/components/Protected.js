@@ -5,9 +5,9 @@ import { Navigate } from "react-router-dom";
 function Protected({ children }) {
   const dispatch = useDispatch();
   const loggedInUser = useSelector(selectLoggedInUser);
-  // if (!loggedInUser) {
-  //   dispatch(hasLoginnedUserAsync());
-  // }
+  if (!loggedInUser) {
+    dispatch(hasLoginnedUserAsync());
+  }
   if (!loggedInUser) {
     return <Navigate to={"/login"} replace={true}></Navigate>;
   }

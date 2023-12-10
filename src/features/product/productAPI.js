@@ -13,9 +13,7 @@ export function fetchProductsByFilter(filter, admin) {
   }
 
   return new Promise(async (resolve) => {
-    const response = await fetch(
-      `https://e-commerce-back-end-xx27.vercel.app/products?${queryStr}`
-    );
+    const response = await fetch(`http://localhost:8080/products?${queryStr}`);
     const data = await response.json();
     const totalItems = await response.headers.get("X-Total-Count");
     resolve({ data: { products: data, totalItems: totalItems } });
@@ -24,9 +22,7 @@ export function fetchProductsByFilter(filter, admin) {
 
 export function fetchAllBrands() {
   return new Promise(async (resolve) => {
-    const response = await fetch(
-      "https://e-commerce-back-end-xx27.vercel.app/brands"
-    );
+    const response = await fetch("http://localhost:8080/brands");
     const data = response.json();
     resolve({ data });
   });
@@ -34,18 +30,14 @@ export function fetchAllBrands() {
 
 export function fetchAllCategories() {
   return new Promise(async (resolve) => {
-    const response = await fetch(
-      "https://e-commerce-back-end-xx27.vercel.app/categories"
-    );
+    const response = await fetch("http://localhost:8080/categories");
     const data = response.json();
     resolve({ data });
   });
 }
 export function fetchProductById(id) {
   return new Promise(async (resolve) => {
-    const response = await fetch(
-      `https://e-commerce-back-end-xx27.vercel.app/products/${id}`
-    );
+    const response = await fetch(`http://localhost:8080/products/${id}`);
     const data = response.json();
     resolve({ data });
   });
@@ -54,14 +46,11 @@ export function fetchProductById(id) {
 // This api is used by admin to add products
 export function createProduct(productData) {
   return new Promise(async (resolve) => {
-    const response = await fetch(
-      "https://e-commerce-back-end-xx27.vercel.app/products",
-      {
-        method: "POST",
-        body: JSON.stringify(productData),
-        headers: { "content-type": "application/json" },
-      }
-    );
+    const response = await fetch("http://localhost:8080/products", {
+      method: "POST",
+      body: JSON.stringify(productData),
+      headers: { "content-type": "application/json" },
+    });
     const data = response.json();
     resolve({ data });
   });
@@ -71,7 +60,7 @@ export function createProduct(productData) {
 export function updateProduct(productData) {
   return new Promise(async (resolve) => {
     const response = await fetch(
-      "https://e-commerce-back-end-xx27.vercel.app/products/" + productData.id,
+      "http://localhost:8080/products/" + productData.id,
       {
         method: "PATCH",
         body: JSON.stringify(productData),
