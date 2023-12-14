@@ -450,7 +450,7 @@ function DesktopFilter({ filter, filters, handleFilter, dispatch }) {
 function ProductGrid({ products, status }) {
   return (
     <>
-      <div className="lg:col-span-4">
+      <div className="lg:col-span-4 lg:mx-32">
         {/*  This is our product list */}
         <div className="bg-white">
           {status === "loading" ? (
@@ -467,58 +467,64 @@ function ProductGrid({ products, status }) {
             </div>
           ) : (
             <div className="mx-auto max-w-2xl sm:px-6 sm:py-0 lg:max-w-7xl lg:px-8">
-              <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4 xl:gap-x-8">
+              <div className="mt-6 grid grid-cols-2 gap-x-4 gap-y-10 lg:gap-x-8 lg:grid-cols-4 xl:gap-x-8">
                 {products.map((product) => (
                   <Link key={product.id} to={`/product-detail/${product.id}`}>
-                    <div className="group relative border-solid border-1 bg-gray-100 ">
-                      <div className="h-44 sm:h-60 aspect-h-1 aspect-w-1 w-full overflow-hidden p-4 transition ease-in-out duration-700 group-hover:opacity-75 lg:aspect-none lg:h-60 ">
-                        <img
-                          src={product.thumbnail}
-                          alt={product.title}
-                          className="w-full h-full object-cover object-center rounded-md shadow-inner shadow-lg shadow-gray-500/50 transition ease-in-out duration-700  group-hover:scale-110 lg:h-full lg:w-full "
-                        />
-                      </div>
-                      <div className="mt-2 px-2 sm:px-4 py-2 flex justify-between">
-                        <div>
-                          <h3 className="text-[13px] sm:text-[15px] font-semibold text-gray-700">
-                            <div href={product.thumbnail}>
-                              <span
-                                aria-hidden="true"
-                                className="absolute inset-0"
-                              />
-                              {product.title}
-                            </div>
-                          </h3>
-                          <p className="mt-1 text-[13px] sm:text-[14px] text-gray-500">
-                            <StarIcon className="inline w-5 h-5 mr-1  fill-[#FF9900]"></StarIcon>
-                            <span className="align-bottom">
-                              {product.rating}
-                            </span>
-                          </p>
+                    <div className="shadow-lg lg:shadow-none  group relative rounded-md transition ease-in-out duration-700 hover:-translate-y-6 ">
+                      <div className="rounded-md transition ease-in-out duration-100 hover:shadow-[0px_0px_2px_2px_rgba(0,0,0,0.2)] ">
+                        <div className="h-32 w-full sm:h-36 aspect-h-1 aspect-w-1 overflow-hidden transition ease-in-out duration-700 group-hover:opacity-75 lg:aspect-none lg:h-48 ">
+                          <img
+                            src={product.thumbnail}
+                            alt={product.title}
+                            className="w-full h-full object-cover object-center rounded-md transition ease-in-out duration-700 group-hover:scale-110 lg:h-full lg:w-full "
+                          />
                         </div>
-                        <div>
-                          <p className="text-[15px] sm:text-[16px] font-medium text-[#C20004]">
-                            $
-                            {discoutPrice(
-                              product.price,
-                              product.discountPercentage
-                            )}
-                          </p>
-                          <p className="text-[13px] sm:text-[14px] mt-1 line-through font-medium text-gray-400">
-                            ${product.price}
-                          </p>
+                        <div className="mt-2 px-2 sm:px-4 py-2 justify-between">
+                          <div>
+                            <h3 className="text-[13px] sm:text-[15px] font-semibold text-gray-700">
+                              <div href={product.thumbnail}>
+                                <span
+                                  aria-hidden="true"
+                                  className="absolute inset-0"
+                                />
+                                {product.title}
+                              </div>
+                            </h3>
+                            <p className="mt-1 text-[13px] sm:text-[14px] text-gray-500">
+                              <StarIcon className="inline w-4 h-4 lg:w-5 lg:h-5 fill-[#FF9900]"></StarIcon>
+                              <StarIcon className="inline w-4 h-4 lg:w-5 lg:h-5 fill-[#FF9900]"></StarIcon>
+                              <StarIcon className="inline w-4 h-4 lg:w-5 lg:h-5 fill-[#FF9900]"></StarIcon>
+                              <StarIcon className="inline w-4 h-4 lg:w-5 lg:h-5 fill-[#FF9900]"></StarIcon>
+                              <StarIcon className="inline mr-1 w-4 h-4 lg:w-5 lg:h-5 fill-gray-400"></StarIcon>
+                              <span className="align-bottom">
+                                {product.rating}
+                              </span>
+                            </p>
+                          </div>
+                          <div className="ml-1">
+                            <p className="mt-2 text-[13px] sm:text-[14px] font-medium text-[#C20004]">
+                              $
+                              {discoutPrice(
+                                product.price,
+                                product.discountPercentage
+                              )}
+                            </p>
+                            <p className="text-[12px] sm:text-[13px] mt-1 line-through font-medium text-gray-400">
+                              ${product.price}
+                            </p>
+                          </div>
                         </div>
+                        {product.deleted && (
+                          <span className="mt-2 text-sm text-red-500">
+                            Product deleted
+                          </span>
+                        )}
+                        {product.stock <= 0 && (
+                          <span className="mt-2 text-sm text-red-500">
+                            Out of stock
+                          </span>
+                        )}
                       </div>
-                      {product.deleted && (
-                        <span className="mt-2 text-sm text-red-500">
-                          Product deleted
-                        </span>
-                      )}
-                      {product.stock <= 0 && (
-                        <span className="mt-2 text-sm text-red-500">
-                          Out of stock
-                        </span>
-                      )}
                     </div>
                   </Link>
                 ))}
