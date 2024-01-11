@@ -109,7 +109,7 @@ export default function AdminProductList() {
 
   return (
     <>
-      <div className="bg-white">
+      <div className="bg-white p-4 lg:px-8">
         <div>
           {/* Mobile filter dialog */}
           <MobileFilter
@@ -122,9 +122,9 @@ export default function AdminProductList() {
             dispatch={dispatch}
           />
 
-          <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
-              <h1 className="text-4xl font-bold tracking-tight text-gray-900">
+          <main className="mx-auto max-w-7xl p-4 sm:px-6 lg:px-8">
+            <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-10">
+              <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900">
                 All products
               </h1>
 
@@ -336,7 +336,7 @@ function MobileFilter({
                                     section.id,
                                     option.value
                                   )}
-                                  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                  className="h-4 w-4 rounded border-gray-300 text-rose-600 focus:ring-rose-500"
                                   onChange={(e) => {
                                     dispatch(setupPage(1));
                                     handleFilter(section, option, e);
@@ -400,7 +400,7 @@ function DesktopFilter({ filters, handleFilter, dispatch }) {
                           defaultValue={option.value}
                           type="checkbox"
                           defaultChecked={option.checked}
-                          className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                          className="h-4 w-4 rounded border-gray-300 text-rose-600 focus:ring-rose-500"
                           onChange={(e) => {
                             dispatch(setupPage(1));
                             handleFilter(section, option, e);
@@ -427,11 +427,11 @@ function DesktopFilter({ filters, handleFilter, dispatch }) {
 function ProductGrid({ products, status }) {
   return (
     <>
-      <div className="lg:col-span-4">
+      <div className=" lg:col-span-4 lg:mx-32">
         <Link to={"/admin/product-form"}>
           <button
             type="submit"
-            className="rounded-md bg-green-600 ml-10 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            className="rounded-md bg-green-600 ml-10 mb-4 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-600"
           >
             Add Product
           </button>
@@ -452,58 +452,70 @@ function ProductGrid({ products, status }) {
             </div>
           ) : (
             <div className="mx-auto max-w-2xl sm:px-6 sm:py-0 lg:max-w-7xl lg:px-8">
-              <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4 xl:gap-x-8">
+              <div className="mt-6 grid grid-cols-2 gap-x-4 gap-y-10 lg:gap-x-8 lg:grid-cols-4 xl:gap-x-8">
                 {products.map((product) => (
                   <Link key={product.id} to={`/product-detail/${product.id}`}>
-                    <div className="group relative border-solid border-1 bg-gray-100 ">
-                      <div className="h-44 sm:h-60 aspect-h-1 aspect-w-1 w-full overflow-hidden p-4 transition ease-in-out duration-700 group-hover:opacity-75 lg:aspect-none lg:h-60 ">
-                        <img
-                          src={product.thumbnail}
-                          alt={product.title}
-                          className="w-full h-full object-cover object-center rounded-md shadow-inner shadow-lg shadow-gray-500/50 transition ease-in-out duration-700  group-hover:scale-110 lg:h-full lg:w-full "
-                        />
-                      </div>
-                      <div className="mt-2 px-2 sm:px-4 py-2 flex justify-between">
-                        <div>
-                          <h3 className="text-[13px] sm:text-[15px] font-semibold text-gray-700">
-                            <div href={product.thumbnail}>
-                              <span
-                                aria-hidden="true"
-                                className="absolute inset-0"
-                              />
-                              {product.title}
-                            </div>
-                          </h3>
-                          <p className="mt-1 text-[13px] sm:text-[14px] text-gray-500">
-                            <StarIcon className="inline w-5 h-5 mr-1  fill-[#FF9900]"></StarIcon>
-                            <span className="align-bottom">
-                              {product.rating}
-                            </span>
-                          </p>
+                    <div className="shadow-lg lg:shadow-none  group relative rounded-md transition ease-in-out duration-700 hover:-translate-y-6 ">
+                      <div className="rounded-md transition ease-in-out duration-100 hover:shadow-[0px_0px_2px_2px_rgba(0,0,0,0.2)] ">
+                        <div className="h-32 w-full sm:h-36 aspect-h-1 aspect-w-1 overflow-hidden transition ease-in-out duration-700 group-hover:opacity-75 lg:aspect-none lg:h-48 ">
+                          <img
+                            src={product.thumbnail}
+                            alt={product.title}
+                            className="w-full h-full object-cover object-center rounded-md transition ease-in-out duration-700 group-hover:scale-110 lg:h-full lg:w-full "
+                          />
                         </div>
-                        <div>
-                          <p className="text-[15px] sm:text-[16px] font-medium text-[#C20004]">
-                            $
-                            {discoutPrice(
-                              product.price,
-                              product.discountPercentage
-                            )}
-                          </p>
-                          <p className="text-[13px] sm:text-[14px] mt-1 line-through font-medium text-gray-400">
-                            ${product.price}
-                          </p>
+                        <div className="mt-2 px-2 sm:px-4 py-2 justify-between">
+                          <div>
+                            <h3 className="text-[13px] sm:text-[15px] font-semibold text-gray-700">
+                              <div href={product.thumbnail}>
+                                <span
+                                  aria-hidden="true"
+                                  className="absolute inset-0"
+                                />
+                                {product.title}
+                              </div>
+                            </h3>
+                            <p className="mt-1 text-[13px] sm:text-[14px] text-gray-500">
+                              {Array.from({ length: 5 }).map((ele, index) => {
+                                if (index < Math.round(product.rating)) {
+                                  return (
+                                    <StarIcon className="inline w-4 h-4 lg:w-5 lg:h-5 fill-[#FF9900]"></StarIcon>
+                                  );
+                                } else {
+                                  return (
+                                    <StarIcon className="inline w-4 h-4 lg:w-5 lg:h-5 fill-gray-400"></StarIcon>
+                                  );
+                                }
+                              })}
+                              <span className="align-bottom">
+                                {product.rating}
+                              </span>
+                            </p>
+                          </div>
+                          <div className="ml-1">
+                            <p className="mt-2 text-[13px] sm:text-[14px] font-medium text-[#C20004]">
+                              $
+                              {discoutPrice(
+                                product.price,
+                                product.discountPercentage
+                              )}
+                            </p>
+                            <p className="text-[12px] sm:text-[13px] mt-1 line-through font-medium text-gray-400">
+                              ${product.price}
+                            </p>
+                          </div>
                         </div>
+                        {product.deleted && (
+                          <span className="mt-2 text-sm text-red-500">
+                            Product deleted
+                          </span>
+                        )}
+                        {product.stock <= 0 && (
+                          <span className="mt-2 text-sm text-red-500">
+                            Out of stock
+                          </span>
+                        )}
                       </div>
-                      {product.deleted && (
-                        <p className="mt-2 text-sm text-red-500">
-                          Product deleted
-                        </p>
-                      )}
-                      {product.stock <= 0 && (
-                        <p className="mt-1 text-sm text-red-500">
-                          Out of stock
-                        </p>
-                      )}
                     </div>
                     <Link
                       key={product.id}
@@ -511,7 +523,7 @@ function ProductGrid({ products, status }) {
                     >
                       <button
                         type="submit"
-                        className="rounded-md bg-indigo-600 mt-3 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        className="rounded-md bg-rose-600 mt-3 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-rose-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-600"
                       >
                         Edit Product
                       </button>
@@ -584,7 +596,7 @@ function Pagination({ page, dispatch, totalItems }) {
               <span className="sr-only">Previous</span>
               <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
             </div>
-            {/* Current: "z-10 bg-indigo-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" */}
+            {/* Current: "z-10 bg-rose-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" */}
             {Array.from({ length: Math.ceil(totalItems / ITEM_PER_PAGE) }).map(
               (el, index) => (
                 <div
@@ -595,7 +607,7 @@ function Pagination({ page, dispatch, totalItems }) {
                   aria-current="page"
                   className={`relative inline-flex items-center  px-4 py-2 text-sm font-semibold  ${
                     page === index + 1
-                      ? "z-10 bg-indigo-600 text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                      ? "z-10 bg-rose-600 text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-600"
                       : "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
                   }`}
                 >

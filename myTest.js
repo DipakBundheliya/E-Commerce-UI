@@ -1,3 +1,20 @@
+let val = 3.9;
+val = Math.round(val);
+val;
+
+Array.from(val);
+
+for (let index = 1; index <= 5; index++) {}
+
+Array.from({ length: 5 }).map((ele, index) => {
+  if (index < Math.floor(val)) {
+    index;
+  } else {
+    index;
+  }
+});
+
+
 // const products = [
 //   {
 //     id: 1,

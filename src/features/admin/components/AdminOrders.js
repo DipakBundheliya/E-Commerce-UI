@@ -69,8 +69,8 @@ function AdminOrders() {
   }
 
   return (
-    <div className="overflow-x-auto">
-      <div className="min-w-screen bg-gray-100 flex items-center justify-center bg-gray-100 font-sans overflow-hidden">
+    <div className="overflow-x-auto mx-20 my-2">
+      <div className="min-w-screen flex items-center justify-center font-sans overflow-hidden">
         <div className="w-full ">
           <div className="bg-white shadow-md rounded my-6">
             <table className=" w-full table-auto">
@@ -156,7 +156,7 @@ function AdminOrders() {
                     <td className="py-3 px-6 text-center">
                       {editableOrderId === order.id ? (
                         <select
-                          className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+                          className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-rose-600 sm:max-w-xs sm:text-sm sm:leading-6"
                           onChange={(e) => handleUpdateStatus(e, order)}
                           value={order.status}
                         >
@@ -324,7 +324,7 @@ function Pagination({ page, setPage, dispatch, totalOrders }) {
               <span className="sr-only">Previous</span>
               <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
             </div>
-            {/* Current: "z-10 bg-indigo-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" */}
+            {/* Current: "z-10 bg-rose-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" */}
             {Array.from({ length: Math.ceil(totalOrders / ITEM_PER_PAGE) }).map(
               (el, index) => (
                 <div
@@ -335,7 +335,7 @@ function Pagination({ page, setPage, dispatch, totalOrders }) {
                   aria-current="page"
                   className={`relative inline-flex items-center  px-4 py-2 text-sm font-semibold  ${
                     page === index + 1
-                      ? "z-10 bg-indigo-600 text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                      ? "z-10 bg-rose-600 text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-600"
                       : "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
                   }`}
                 >

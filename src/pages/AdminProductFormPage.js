@@ -4,9 +4,7 @@ import Navbar from "../features/navbar/Navbar";
 function AdminProductFormPage() {
   return (
     <>
-      <Navbar>
-        <ProductForm></ProductForm>
-      </Navbar>
+      <ProductForm></ProductForm>
     </>
   );
 }

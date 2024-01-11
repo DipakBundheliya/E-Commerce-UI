@@ -5,9 +5,7 @@ import Navbar from "../features/navbar/Navbar";
 function AdminUpdateProductFormPage() {
   return (
     <>
-      <Navbar>
-        <UpdateProductForm></UpdateProductForm>
-      </Navbar>
+      <UpdateProductForm></UpdateProductForm>
     </>
   );
 }

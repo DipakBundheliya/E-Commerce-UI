@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
   fetchLoggedInUser,
   fetchLoggedInUserOrder,
+  updateProfile,
   updateUser,
 } from "./userAPI";
 
@@ -40,6 +41,14 @@ export const updateUserAsync = createAsyncThunk(
     return response.data;
   }
 );
+export const updateUserProfileAsync = createAsyncThunk(
+  "user/updateUserProfile",
+  async (profileDetails) => {
+    const response = await updateProfile(profileDetails);
+    // The value we return becomes the `fulfilled` action payload
+    return response.data;
+  }
+);
 
 export const userSlice = createSlice({
   name: "user",
@@ -72,6 +81,13 @@ export const userSlice = createSlice({
         state.status = "loading";
       })
       .addCase(updateUserAsync.fulfilled, (state, action) => {
+        state.status = "idle";
+        state.userInfo = action.payload;
+      })
+      .addCase(updateUserProfileAsync.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(updateUserProfileAsync.fulfilled, (state, action) => {
         state.status = "idle";
         state.userInfo = action.payload;
       });

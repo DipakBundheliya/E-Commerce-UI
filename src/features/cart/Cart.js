@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
@@ -34,10 +34,18 @@ export default function Cart() {
     <>
       {!itemset.length && <Navigate to={"/"} replace={true}></Navigate>}
       <div>
+        <h1 className="flex items-center justify-center w-full h-20 text-sm  bg-rose-50 my-10">
+          <Link to="/">
+            <span className="mr-4 text-gray-700 hover:text-gray-900 font-semibold cursor-pointer">
+              HOME
+            </span>{" "}
+          </Link>
+          / <span className="ml-4 font-semibold">CART</span>
+        </h1>
         <div className="mx-auto mt-12 bg-white max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
-            <h1 className="text-4xl my-5 font-bold tracking-tight text-gray-900">
-              Cart
+            <h1 className="text-2xl font-semibold leading-tight mb-10 text-gray-900">
+              Your cart items
             </h1>
             <div className="flow-root">
               <ul role="list" className="-my-6 divide-y divide-gray-200">
@@ -113,7 +121,7 @@ export default function Cart() {
                         <div className="flex">
                           <button
                             type="button"
-                            className="font-medium text-indigo-600 hover:text-indigo-500"
+                            className="font-medium text-rose-600 hover:text-rose-500"
                             onClick={(e) => {
                               setDangerId(itemdata.id);
                               setShowModal(showModal === false ? true : false);
@@ -145,7 +153,7 @@ export default function Cart() {
             <div className="mt-6">
               <Link
                 to="/checkout"
-                className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+                className="flex items-center justify-center rounded-md border border-transparent bg-rose-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-rose-700"
               >
                 Checkout
               </Link>
@@ -156,7 +164,7 @@ export default function Cart() {
                 <Link to="/">
                   <button
                     type="button"
-                    className="font-medium text-indigo-600 hover:text-indigo-500"
+                    className="font-medium text-rose-600 hover:text-rose-500"
                     onClick={() => setOpen(false)}
                   >
                     Continue Shopping

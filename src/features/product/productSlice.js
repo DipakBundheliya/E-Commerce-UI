@@ -15,6 +15,7 @@ const initialState = {
   categories: [],
   totalItems: 0,
   productById: null,
+  productByIdStatus: "idle",
   pageNum: 1,
 };
 
@@ -109,11 +110,11 @@ export const productSlice = createSlice({
         state.status = "idle";
       })
       .addCase(fetchProductByIdAsync.pending, (state) => {
-        state.status = "loading";
+        state.productByIdStatus = "loading";
       })
       .addCase(fetchProductByIdAsync.fulfilled, (state, action) => {
         state.productById = action.payload;
-        state.status = "idle";
+        state.productByIdStatus = "idle";
       })
       .addCase(createProductAsync.pending, (state) => {
         state.status = "loading";
@@ -145,5 +146,7 @@ export const selectTotalCategories = (state) => state.product.categories;
 export const selectedProductById = (state) => state.product.productById;
 export const statusUpdate = (state) => state.product.status;
 export const selectProductListStatus = (state) => state.product.status;
+export const selectProductByIdStatus = (state) =>
+  state.product.productByIdStatus;
 
 export default productSlice.reducer;

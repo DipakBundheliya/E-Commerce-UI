@@ -15,7 +15,7 @@ import {
 
 // Tailwind
 import { Dialog, Disclosure, Menu, Transition } from "@headlessui/react";
-import { XMarkIcon } from "@heroicons/react/24/outline";
+import { EyeIcon, HeartIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
   AdjustmentsHorizontalIcon,
@@ -31,6 +31,14 @@ import {
 import { Link } from "react-router-dom";
 import { ITEM_PER_PAGE, discoutPrice } from "../../../app/constants";
 import { Bars } from "react-loader-spinner";
+import ProductPopup from "./ProductPopup";
+import Modals from "../../common/Modals";
+import { useAlert } from "react-alert";
+import {
+  addToWishlistAsync,
+  selectWishlistItems,
+} from "../../wishlist/wishlistSlice";
+import { selectUserInfo } from "../../user/userSlice";
 
 const sortOptions = [
   { name: "Best Rating", sort: "rating", order: "desc", current: false },
@@ -51,6 +59,9 @@ export default function ProductList() {
   const dispatch = useDispatch();
   const page = useSelector((state) => state.product.pageNum);
   const status = useSelector(selectProductListStatus);
+  const wishlistItemSet = useSelector(selectWishlistItems);
+  const user = useSelector(selectUserInfo);
+  const alert = useAlert();
 
   const filters = [
     {
@@ -108,9 +119,26 @@ export default function ProductList() {
     dispatch(fetchProductsByFilterAsync({ filter }));
   }
 
+  function handleWishlist(e, productId) {
+    e.preventDefault();
+    if (
+      wishlistItemSet.findIndex((item) => item.product.id === productId) >= 0
+    ) {
+      alert.error(`Item already added to Wishlist`);
+    } else {
+      const newItem = {
+        quantity: 1,
+        user: user.id,
+        product: productId,
+      };
+      dispatch(addToWishlistAsync(newItem));
+      //    TODO: This alert is based on server response when item successfully added
+      alert.success(`Item added to Wishlist`);
+    }
+  }
   return (
     <>
-      <div className="bg-white">
+      <div className="bg-white p-4 lg:px-4">
         <div>
           {/* Mobile filter dialog */}
           <MobileFilter
@@ -123,9 +151,9 @@ export default function ProductList() {
             dispatch={dispatch}
           />
 
-          <main className="mx-auto max-w-7xl p-4 sm:px-6 lg:px-8">
-            <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-10">
-              <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-gray-900">
+          <main className="mx-auto max-w-7xl p-4 sm:px-6 lg:px-4">
+            <div className="flex items-baseline justify-between border-b border-gray-200 pb-6">
+              <h1 className="text-center text-3xl sm:text-4xl font-bold tracking-tight text-gray-900">
                 All products
               </h1>
 
@@ -179,7 +207,7 @@ export default function ProductList() {
 
                 <button
                   type="button"
-                  className="-m-2 ml-1 sm:ml-3  p-2 text-gray-600 hover:text-gray-500 sm:ml-2"
+                  className="-m-2 ml-1  p-2 text-gray-600 hover:text-gray-500 sm:ml-2"
                 >
                   <span className="sr-only">View grid</span>
                   <Squares2X2Icon className="h-5 w-5" aria-hidden="true" />
@@ -205,17 +233,20 @@ export default function ProductList() {
               </h2>
 
               <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
-                {/* Filters
+                {/* Filters */}
                 <DesktopFilter
                   filter={filter}
                   filters={filters}
                   handleFilter={handleFilter}
                   page={page}
                   dispatch={dispatch}
-                /> */}
-
+                />
                 {/* Product grid */}
-                <ProductGrid products={products} status={status} />
+                <ProductGrid
+                  products={products}
+                  status={status}
+                  handleWishlist={handleWishlist}
+                />
               </div>
             </section>
 
@@ -342,7 +373,7 @@ function MobileFilter({
                                     section.id,
                                     option.value
                                   )}
-                                  className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                                  className="h-4 w-4 rounded border-gray-300 text-rose-600 focus:ring-rose-500"
                                   onChange={(e) => {
                                     dispatch(setupPage(1));
                                     handleFilter(section, option, e);
@@ -387,7 +418,7 @@ function DesktopFilter({ filter, filters, handleFilter, dispatch }) {
   }
   return (
     <>
-      <form className="hidden lg:block">
+      <form className="hidden lg:block lg:col-span-1">
         {filters.map((section) => (
           <Disclosure
             as="div"
@@ -423,7 +454,7 @@ function DesktopFilter({ filter, filters, handleFilter, dispatch }) {
                             section.id,
                             option.value
                           )}
-                          className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                          className="h-4 w-4 rounded border-gray-300 text-rose-600 focus:ring-rose-500"
                           onChange={(e) => {
                             dispatch(setupPage(1));
                             handleFilter(section, option, e);
@@ -447,10 +478,19 @@ function DesktopFilter({ filter, filters, handleFilter, dispatch }) {
     </>
   );
 }
-function ProductGrid({ products, status }) {
+function ProductGrid({ products, status, handleWishlist }) {
+  const [showPopup, setshowPopup] = useState(false);
+  const [prodId, setprodId] = useState();
   return (
     <>
-      <div className="lg:col-span-4">
+      {
+        <ProductPopup
+          showPopup={showPopup}
+          setshowPopup={setshowPopup}
+          prodId={prodId}
+        ></ProductPopup>
+      }
+      <div className="lg:col-span-3 ">
         {/*  This is our product list */}
         <div className="bg-white">
           {status === "loading" ? (
@@ -458,7 +498,7 @@ function ProductGrid({ products, status }) {
               <Bars
                 height="60"
                 width="60"
-                color="rgb(79,70,229)"
+                color="#E53E3E"
                 ariaLabel="bars-loading"
                 wrapperStyle={{}}
                 wrapperClass=""
@@ -467,60 +507,102 @@ function ProductGrid({ products, status }) {
             </div>
           ) : (
             <div className="mx-auto max-w-2xl sm:px-6 sm:py-0 lg:max-w-7xl lg:px-8">
-              <div className="mt-6 grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4 xl:gap-x-8">
+              <div className="mt-6 grid grid-cols-2 gap-x-4 gap-y-10 lg:gap-x-8 lg:grid-cols-3 xl:gap-x-8">
                 {products.map((product) => (
-                  <Link key={product.id} to={`/product-detail/${product.id}`}>
-                    <div className="group relative border-solid border-1 bg-gray-100 ">
-                      <div className="h-44 sm:h-60 aspect-h-1 aspect-w-1 w-full overflow-hidden p-4 transition ease-in-out duration-700 group-hover:opacity-75 lg:aspect-none lg:h-60 ">
-                        <img
-                          src={product.thumbnail}
-                          alt={product.title}
-                          className="w-full h-full object-cover object-center rounded-md shadow-inner shadow-lg shadow-gray-500/50 transition ease-in-out duration-700  group-hover:scale-110 lg:h-full lg:w-full "
-                        />
-                      </div>
-                      <div className="mt-2 px-2 sm:px-4 py-2 flex justify-between">
-                        <div>
-                          <h3 className="text-[13px] sm:text-[15px] font-semibold text-gray-700">
-                            <div href={product.thumbnail}>
-                              <span
-                                aria-hidden="true"
-                                className="absolute inset-0"
-                              />
-                              {product.title}
+                  <>
+                    <div className="shadow-lg lg:shadow-none  group relative rounded-md transition ease-in-out duration-700  ">
+                      <div className="rounded-md  transition ease-in-out duration-100  ">
+                        <div className="relative h-32 w-full sm:h-36 overflow-hidden rounded-md  transition ease-in-out duration-700   lg:h-60 bg-white cursor-pointer">
+                          <Link
+                            key={product.id}
+                            to={`/product-detail/${product.id}`}
+                          >
+                            <img
+                              src={product.thumbnail}
+                              alt={product.title}
+                              className="w-full h-full object-contain object-center rounded-md transition ease-in-out duration-700 group-hover:scale-110 lg:h-full lg:w-full group-hover:opacity-85 "
+                            />
+                          </Link>
+                          <div className="absolute bottom-0 grid grid-cols-4 w-full rounded-md  h-12 ">
+                            <button
+                              className="col-span-1 w-full h-full text-white bg-rose-600  flex items-center justify-center transition ease-in-out duration-500  translate-y-12  group-hover:translate-y-0 hover:bg-black"
+                              onClick={(e) => {
+                                handleWishlist(e, product.id);
+                              }}
+                            >
+                              <HeartIcon className="h-4 w-4 " />
+                            </button>
+                            <div class="col-span-2  border border-x-2 border-y-0 border-x-rose-900 bg-rose-600 flex items-center justify-center w-full h-full transition ease-in-out duration-[600ms]  translate-y-12  group-hover:translate-y-0 hover:bg-black">
+                              <h1 class="text-center text-white ">Buy Now</h1>
                             </div>
-                          </h3>
-                          <p className="mt-1 text-[13px] sm:text-[14px] text-gray-500">
-                            <StarIcon className="inline w-5 h-5 mr-1  fill-[#FF9900]"></StarIcon>
-                            <span className="align-bottom">
-                              {product.rating}
-                            </span>
-                          </p>
+                            <button
+                              className="col-span-1  w-full h-full bg-rose-600 flex items-center justify-center transition ease-in-out duration-700  translate-y-12  group-hover:translate-y-0 hover:bg-black "
+                              onClick={(e) => {
+                                setshowPopup(!showPopup);
+                                setprodId(product.id);
+                              }}
+                            >
+                              <EyeIcon className="h-4 w-4 text-white " />
+                            </button>
+                          </div>
                         </div>
-                        <div>
-                          <p className="text-[15px] sm:text-[16px] font-medium text-[#C20004]">
-                            $
-                            {discoutPrice(
-                              product.price,
-                              product.discountPercentage
-                            )}
-                          </p>
-                          <p className="text-[13px] sm:text-[14px] mt-1 line-through font-medium text-gray-400">
-                            ${product.price}
-                          </p>
+                        <div className="mt-2 px-2 sm:px-4 py-2 flex flex-col justify-center items-center text-center">
+                          <div>
+                            <h3 className="text-base font-semibold text-gray-700 cursor-pointer hover:text-rose-600  transition ease-in-out duration-500 ">
+                              <Link
+                                key={product.id}
+                                to={`/product-detail/${product.id}`}
+                              >
+                                <span
+                                  aria-hidden="true"
+                                  className="absolute "
+                                />
+                                {product.title}
+                              </Link>
+                            </h3>
+                            <p className="mt-1 text-[13px] sm:text-[14px] text-gray-500">
+                              {Array.from({ length: 5 }).map((ele, index) => {
+                                if (index < Math.round(product.rating)) {
+                                  return (
+                                    <StarIcon className="inline w-4 h-4 lg:w-5 lg:h-5 fill-[#FF9900]"></StarIcon>
+                                  );
+                                } else {
+                                  return (
+                                    <StarIcon className="inline w-4 h-4 lg:w-5 lg:h-5 fill-gray-400"></StarIcon>
+                                  );
+                                }
+                              })}
+                              <span className="align-bottom ml-1 ">
+                                {product.rating}
+                              </span>
+                            </p>
+                          </div>
+                          <div className="mt-2 flex justify-center items-center ">
+                            <p className="mr-1 text-[13px] sm:text-[14px] font-medium text-[#C20004]">
+                              $
+                              {discoutPrice(
+                                product.price,
+                                product.discountPercentage
+                              )}
+                            </p>
+                            <p className="ml-1 text-[12px] sm:text-[13px]   line-through font-medium text-gray-400">
+                              ${product.price}
+                            </p>
+                          </div>
                         </div>
+                        {product.deleted && (
+                          <span className="mt-2 text-sm text-red-500">
+                            Product deleted
+                          </span>
+                        )}
+                        {product.stock <= 0 && (
+                          <span className="mt-2 text-sm text-red-500">
+                            Out of stock
+                          </span>
+                        )}
                       </div>
-                      {product.deleted && (
-                        <span className="mt-2 text-sm text-red-500">
-                          Product deleted
-                        </span>
-                      )}
-                      {product.stock <= 0 && (
-                        <span className="mt-2 text-sm text-red-500">
-                          Out of stock
-                        </span>
-                      )}
                     </div>
-                  </Link>
+                  </>
                 ))}
               </div>
             </div>
@@ -588,7 +670,7 @@ function Pagination({ page, dispatch, totalItems }) {
               <span className="sr-only">Previous</span>
               <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
             </div>
-            {/* Current: "z-10 bg-indigo-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" */}
+            {/* Current: "z-10 bg-rose-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" */}
             {Array.from({ length: Math.ceil(totalItems / ITEM_PER_PAGE) }).map(
               (el, index) => (
                 <div
@@ -599,7 +681,7 @@ function Pagination({ page, dispatch, totalItems }) {
                   aria-current="page"
                   className={`relative inline-flex items-center  px-4 py-2 text-sm font-semibold  ${
                     page === index + 1
-                      ? "z-10 bg-indigo-600 text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                      ? "z-10 bg-rose-600 text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-600"
                       : "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
                   }`}
                 >

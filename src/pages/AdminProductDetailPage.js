@@ -5,9 +5,7 @@ import ProductList from "../features/product/components/ProductList";
 function AdminProductDetailPage() {
   return (
     <>
-      <Navbar>
-        <AdminProductDetail></AdminProductDetail>
-      </Navbar>
+      <AdminProductDetail></AdminProductDetail>
     </>
   );
 }

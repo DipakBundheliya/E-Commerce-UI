@@ -2,7 +2,7 @@
 export function fetchLoggedInUserOrder(userId) {
   return new Promise(async (resolve) => {
     const response = await fetch(
-      "https://e-commerce-back-end-xx27.vercel.app/ordersOfUser?id=" + userId,
+      "http://localhost:8080/ordersOfUser?id=" + userId,
       {
         method: "GET",
         credentials: "include",
@@ -15,13 +15,10 @@ export function fetchLoggedInUserOrder(userId) {
 }
 export function fetchLoggedInUser(userId) {
   return new Promise(async (resolve) => {
-    const response = await fetch(
-      "https://e-commerce-back-end-xx27.vercel.app/users/" + userId,
-      {
-        method: "GET",
-        credentials: "include",
-      }
-    );
+    const response = await fetch("http://localhost:8080/users/" + userId, {
+      method: "GET",
+      credentials: "include",
+    });
     const data = response.json();
     resolve({ data });
   });
@@ -29,16 +26,30 @@ export function fetchLoggedInUser(userId) {
 // This api is called in checkout page , store addresses
 export function updateUser(user) {
   return new Promise(async (resolve) => {
+    const response = await fetch("http://localhost:8080/users/" + user.id, {
+      method: "PATCH",
+      credentials: "include",
+      body: JSON.stringify(user),
+      headers: { "content-type": "application/json" },
+    });
+    const data = await response.json();
+    resolve({ data });
+  });
+}
+export function updateProfile(profileDetails) {
+  console.log(profileDetails);
+  return new Promise(async (resolve) => {
     const response = await fetch(
-      "https://e-commerce-back-end-xx27.vercel.app/users/" + user.id,
+      "http://localhost:8080/updateUserProfile/" + profileDetails.id,
       {
-        method: "PATCH",
+        method: "POST",
         credentials: "include",
-        body: JSON.stringify(user),
+        body: JSON.stringify(profileDetails),
         headers: { "content-type": "application/json" },
       }
     );
     const data = await response.json();
+    console.log(data);
     resolve({ data });
   });
 }

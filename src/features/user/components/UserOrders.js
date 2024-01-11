@@ -14,15 +14,20 @@ export default function UserOrders() {
 
   return (
     <>
+      <h1 className="flex items-center justify-center w-full h-20 text-sm  bg-rose-50 my-10">
+        <span className="mr-4 text-2xl font-medium text-gray-800 cursor-pointer">
+          Order Summary
+        </span>
+      </h1>
       {orders &&
         orders.map((order) => (
           <div>
             <div className="mx-auto mt-12 bg-white max-w-7xl px-4 sm:px-6 lg:px-8">
               <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
-                <h1 className="text-3xl my-5 font-bold tracking-tight text-gray-900">
+                <h1 className="text-2xl my-5 font-medium tracking-tight text-gray-800">
                   Order #{order.id}
                 </h1>
-                <h2 className="text-xl my-5 font-bold tracking-tight text-red-700">
+                <h2 className="text-xl my-5 font-medium tracking-tight text-red-700">
                   Order status : {order.status}
                 </h2>
 

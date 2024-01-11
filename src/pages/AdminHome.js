@@ -6,9 +6,7 @@ import ProductList from "../features/product/components/ProductList";
 function AdminHome() {
   return (
     <>
-      <Navbar>
-        <AdminProductList></AdminProductList>
-      </Navbar>
+      <AdminProductList></AdminProductList>
       <Footer></Footer>
     </>
   );
